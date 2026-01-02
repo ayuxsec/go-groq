@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	client "github.com/ayuxsec/go-http-client"
 )
 
 type Runner struct {
@@ -60,10 +62,10 @@ func (r *Runner) RunGrok() ([]byte, error) {
 		headers.Set("Accept", "text/event-stream")
 	}
 
-	request := Request{
-		r.Config.ApiBaseUrl.Groq,
-		headers,
-		r.Client,
+	request := client.Request{
+		RawURL:     r.Config.ApiBaseUrl.Groq,
+		Headers:    headers,
+		HTTPClient: r.Client,
 	}
 
 	resp, err := request.SendPost(bytes.NewReader(postData))

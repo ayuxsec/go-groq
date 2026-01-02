@@ -3,6 +3,8 @@ package groq
 import (
 	"os"
 	"testing"
+
+	client "github.com/ayuxsec/go-http-client"
 )
 
 func TestRunGrok(t *testing.T) {
@@ -14,9 +16,11 @@ func TestRunGrok(t *testing.T) {
 			Content: "Ping",
 		},
 	}
+	clientCfg := client.DefaultClientConfig()
+	httpClient, _ := clientCfg.CreateNewClient()
 	r := Runner{
 		ApiKey:        os.Getenv("GROQ_API_KEY"),
-		Client:        DefaultClientConfig().CreateNewClient(),
+		Client:        httpClient,
 		LLMParameters: params,
 		Config:        DefaultConfig(),
 	}
